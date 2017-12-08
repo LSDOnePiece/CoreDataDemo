@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import<CoreData/CoreData.h>
-
+#import "UserModel+CoreDataModel.h"
 ///表名
 #define TableName @"Student"
 
@@ -22,6 +22,24 @@
 @property(strong,nonatomic)NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 ///保存数据
-- (void)save;
+- (BOOL)save;
+
+///查询数据
+-(NSArray *)fetchDataWithPredicate:(NSPredicate *)predicate;
+
+
+///删除数据
+-(BOOL)deleteDataWithPredicate:(NSPredicate *)predicate;
+
+///更新数据
+-(BOOL)updateDataWithPredicate:(NSPredicate *)predicate Data:(Student *)data;
+
+///批量更新 NSBatchUpdateRequest  iOS 8 特性
+-(BOOL)updateDataWithPredicate:(NSPredicate *)predicate propertiesToUpdate:(NSDictionary *)properties;
+
+///批量删除 NSBatchDeleteRequest  iOS 9 特性
+-(BOOL)DeleteDataWithPredicate:(NSPredicate *)predicate;
+
+
 
 @end

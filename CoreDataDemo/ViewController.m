@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "CoreDataManager.h"
-#import "UserModel+CoreDataModel.h"
+
 @interface ViewController ()
 
 @property(strong,nonatomic)CoreDataManager *dataManager;
@@ -19,21 +19,35 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     Student *stu1 = [NSEntityDescription insertNewObjectForEntityForName:TableName inManagedObjectContext:self.dataManager.managedObjectContext];
-    
-    stu1.studentName = @"xiaoming1";
-    stu1.studentAge = 10;
+    stu1.studentName = @"iOS";
+    stu1.studentAge = 28;
     stu1.studentId = 1;
     
     [self.dataManager save];
-
-    Student *stu2 = [NSEntityDescription insertNewObjectForEntityForName:TableName inManagedObjectContext:self.dataManager.managedObjectContext];
     
-    stu2.studentName = @"xiaoming2";
-    stu2.studentAge = 20;
+    Student *stu2 = [NSEntityDescription insertNewObjectForEntityForName:TableName inManagedObjectContext:self.dataManager.managedObjectContext];
+    stu2.studentName = @"Android";
+    stu2.studentAge = 30;
     stu2.studentId = 2;
+    
     [self.dataManager save];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"studentName CONTAINS[cd] 'O'"];
+    
+    NSArray *array =  [self.dataManager fetchDataWithPredicate:predicate];
+
+    
+    [array enumerateObjectsUsingBlock:^(Student *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+       
+        NSLog(@"%@",obj.studentName);
+    }];
+    
+    
+     NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@"studentName CONTAINS[cd] 'O'"];
+
+    [self.dataManager updateDataWithPredicate:predicate1 propertiesToUpdate:@{@"studentName":@"hehe"}];
 }
 
 
